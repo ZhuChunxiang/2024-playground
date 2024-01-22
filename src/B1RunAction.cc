@@ -40,6 +40,9 @@
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
 
+#include "TFile.h"
+#include "TTree.h"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B1RunAction::B1RunAction()
@@ -62,7 +65,7 @@ B1RunAction::B1RunAction()
   // Register accumulable to the accumulable manager
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->RegisterAccumulable(fEdep);
-  accumulableManager->RegisterAccumulable(fEdep2); 
+  accumulableManager->RegisterAccumulable(fEdep2);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -81,6 +84,11 @@ void B1RunAction::BeginOfRunAction(const G4Run*)
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->Reset();
 
+  momentum.clear();
+  f_out = new TFile("output.root", "RECREATE");
+  t_out = new TTree("t", "momentum");
+  f_out->cd();
+  t_out->Branch("momentum", &momentum);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -124,7 +132,10 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
     G4double particleEnergy = particleGun->GetParticleEnergy();
     runCondition += G4BestUnit(particleEnergy,"Energy");
   }
-        
+
+  t_out->Fill();
+  f_out->Close();
+
   // Print
   //  
   if (IsMaster()) {

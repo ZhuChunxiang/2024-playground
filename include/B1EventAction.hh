@@ -48,10 +48,18 @@ class B1EventAction : public G4UserEventAction
     virtual void EndOfEventAction(const G4Event* event);
 
     void AddEdep(G4double edep) { fEdep += edep; }
+    void GetPosX(G4double pos_X) { pos_x.emplace_back(pos_X); }
+    void GetPosY(G4double pos_Y) { pos_y.emplace_back(pos_Y); }
+    void GetPosZ(G4double pos_Z) { pos_z.emplace_back(pos_Z); }
+    void GetdTime(G4double d_Time) { d_time.emplace_back(d_Time); }
 
   private:
     B1RunAction* fRunAction;
     G4double     fEdep;
+    std::vector<double> pos_x;
+    std::vector<double> pos_y;
+    std::vector<double> pos_z;
+    std::vector<double> d_time;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

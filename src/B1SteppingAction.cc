@@ -65,8 +65,16 @@ void B1SteppingAction::UserSteppingAction(const G4Step *step) {
     // check if we are in scoring volume
     if (volume != fScoringVolume) return;
 
-    // collect energy deposited in this step
+    // collect energy deposited and the time in this step
     G4double edepStep = step->GetTotalEnergyDeposit();
+    G4double posXStep = step->GetDeltaPosition().getX();;
+    G4double posYStep = step->GetDeltaPosition().getY();
+    G4double posZStep = step->GetDeltaPosition().getZ();
+    G4double dtimeStep = step->GetDeltaTime();
+    fEventAction->GetPosX(posXStep);
+    fEventAction->GetPosY(posYStep);
+    fEventAction->GetPosZ(posZStep);
+    fEventAction->GetdTime(dtimeStep);
     fEventAction->AddEdep(edepStep);
 }
 

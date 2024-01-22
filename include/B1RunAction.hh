@@ -34,6 +34,9 @@
 #include "G4Accumulable.hh"
 #include "globals.hh"
 
+#include "TFile.h"
+#include "TTree.h"
+
 class G4Run;
 
 /// Run action class
@@ -52,11 +55,15 @@ class B1RunAction : public G4UserRunAction
     virtual void BeginOfRunAction(const G4Run*);
     virtual void   EndOfRunAction(const G4Run*);
 
-    void AddEdep (G4double edep); 
+    void AddEdep (G4double edep);
+    void GetMomentum(G4double m) { momentum.emplace_back(m); }
 
   private:
     G4Accumulable<G4double> fEdep;
     G4Accumulable<G4double> fEdep2;
+    std::vector<G4double> momentum;
+    TFile *f_out;
+    TTree *t_out;
 };
 
 #endif
