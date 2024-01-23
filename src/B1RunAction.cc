@@ -84,9 +84,9 @@ void B1RunAction::BeginOfRunAction(const G4Run*)
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->Reset();
 
-  momentum.clear();
+  //momentum.clear();
   f_out = new TFile("output.root", "RECREATE");
-  t_out = new TTree("t", "momentum");
+  t_out = new TTree("momentum", "momentum");
   f_out->cd();
   t_out->Branch("momentum", &momentum);
 }
@@ -133,7 +133,8 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
     runCondition += G4BestUnit(particleEnergy,"Energy");
   }
 
-  t_out->Fill();
+  //t_out->Fill();
+  t_out->Write();
   f_out->Close();
 
   // Print

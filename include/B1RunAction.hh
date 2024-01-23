@@ -56,12 +56,13 @@ class B1RunAction : public G4UserRunAction
     virtual void   EndOfRunAction(const G4Run*);
 
     void AddEdep (G4double edep);
-    void GetMomentum(G4double m) { momentum.emplace_back(m); }
+    void GetMomentum(G4double m) { momentum = m; }
+    void momentum_fill() { t_out->Fill(); }
 
   private:
     G4Accumulable<G4double> fEdep;
     G4Accumulable<G4double> fEdep2;
-    std::vector<G4double> momentum;
+    G4double momentum;
     TFile *f_out;
     TTree *t_out;
 };

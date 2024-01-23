@@ -79,6 +79,7 @@ void B1EventAction::EndOfEventAction(const G4Event*)
   G4cout << "The momentum of this particle is " << p << " MeV." << G4endl;
 
   fRunAction->GetMomentum(p);
+  fRunAction->momentum_fill();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
